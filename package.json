@@ -1,0 +1,16 @@
+{
+  "name": "gulp-control",
+  "main": "./lib/gulp-control",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "activationCommands": {
+    "atom-workspace": "gulp-control:toggle"
+  },
+  "repository": "https://github.com/atom/gulp-control",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}

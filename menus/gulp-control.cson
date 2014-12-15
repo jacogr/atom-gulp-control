@@ -1,0 +1,22 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Toggle gulp-control'
+      'command': 'gulp-control:toggle'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'gulp-control'
+      'submenu': [
+        {
+          'label': 'Toggle'
+          'command': 'gulp-control:toggle'
+        }
+      ]
+    ]
+  }
+]
