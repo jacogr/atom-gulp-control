@@ -7,18 +7,12 @@ module.exports = GulpControl =
   subscriptions: null
 
   activate: (state) ->
-    @gulpControlView = new GulpControlView(state.gulpControlViewState)
-    @modalPanel = atom.workspace.addModalPanel(item: @gulpControlView.getElement(), visible: false)
-
-    # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
-    @subscriptions = new CompositeDisposable
-
-    # Register command that toggles this view
-    @subscriptions.add atom.commands.add 'atom-workspace', 'gulp-control:toggle': => @toggle()
+    @gulpControlView = new GulpControlView()
+    pane = atom.workspace.getActivePane()
+    item = pane.addItem @gulpControlView
+    pane.activateItem item
 
   deactivate: ->
-    @modalPanel.destroy()
-    @subscriptions.dispose()
     @gulpControlView.destroy()
 
   serialize: ->
@@ -26,8 +20,3 @@ module.exports = GulpControl =
 
   toggle: ->
     console.log 'GulpControl was toggled!'
-
-    if @modalPanel.isVisible()
-      @modalPanel.hide()
-    else
-      @modalPanel.show()

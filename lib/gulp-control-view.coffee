@@ -1,18 +1,20 @@
-module.exports =
-class GulpControlView
-  constructor: (serializeState) ->
-    # Create root element
-    @element = document.createElement('div')
-    @element.classList.add('gulp-control')
+{View} = require 'atom'
 
-    # Create message element
-    message = document.createElement('div')
-    message.textContent = "The GulpControl package is Alive! It's ALIVE!"
-    message.classList.add('message')
-    @element.appendChild(message)
+module.exports =
+class GulpControlView extends View
+  @content: ->
+    @div ''
+
+  constructor: ->
+    super
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
+
+  getTitle: ->
+    'gulp-control'
+    
+  initialize: ->
 
   # Tear down any state and detach
   destroy: ->
