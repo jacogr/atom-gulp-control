@@ -21,5 +21,5 @@ module.exports = GulpControl =
     view = new GulpControlView()
     views.push view
     pane = atom.workspace.getActivePane()
-    item = pane.addItem view
+    item = pane.addItem view, 0
     pane.activateItem item
