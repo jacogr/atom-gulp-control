@@ -2,11 +2,11 @@
   "name": "gulp-control",
   "main": "./lib/gulp-control",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "Run all gulp tasks via a click, see what is available",
   "activationCommands": {
     "atom-workspace": "gulp-control:toggle"
   },
-  "repository": "https://github.com/atom/gulp-control",
+  "repository": "https://github.com/jacogr/atom-gulp-control",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
