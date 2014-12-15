@@ -1,22 +1,25 @@
 GulpControlView = require './gulp-control-view'
 {CompositeDisposable} = require 'atom'
 
-module.exports = GulpControl =
-  gulpControlView: null
-  modalPanel: null
-  subscriptions: null
+views = []
 
+module.exports = GulpControl =
   activate: (state) ->
-    @gulpControlView = new GulpControlView()
-    pane = atom.workspace.getActivePane()
-    item = pane.addItem @gulpControlView
-    pane.activateItem item
+    console.log 'GulpControl: activate'
+    @newView()
 
   deactivate: ->
-    @gulpControlView.destroy()
+    for view in views
+      view.destroy()
 
   serialize: ->
-    gulpControlViewState: @gulpControlView.serialize()
 
   toggle: ->
-    console.log 'GulpControl was toggled!'
+    console.log 'GulpControl: toggle'
+
+  newView: ->
+    view = new GulpControlView()
+    views.push view
+    pane = atom.workspace.getActivePane()
+    item = pane.addItem view
+    pane.activateItem item

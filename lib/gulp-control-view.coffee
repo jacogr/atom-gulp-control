@@ -3,22 +3,12 @@
 module.exports =
 class GulpControlView extends View
   @content: ->
-    @div ''
+    @div class: 'gulp-control'
 
-  constructor: ->
-    super
-
-  # Returns an object that can be retrieved when package is activated
   serialize: ->
 
-  getTitle: ->
-    'gulp-control'
-    
   initialize: ->
+    @append '<h1>Hello World</h1>'
 
-  # Tear down any state and detach
-  destroy: ->
-    @element.remove()
-
-  getElement: ->
-    @element
+  getTitle: ->
+    'gulp.js:control'
