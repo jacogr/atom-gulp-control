@@ -47,6 +47,9 @@ class GulpControlView extends View
   runGulp: (task, stdout, stderr, exit) ->
     return unless atom.project.getPath()
 
+    @process.kill() if @process
+    @process = null
+    
     command = 'gulp'
     args = [task, '--color']
 
@@ -84,3 +87,4 @@ class GulpControlView extends View
   gulpExit: (code) ->
     @outputPane.append "<div class='#{if code then 'error' else ''}'>Exited with code #{code}</div>"
     @outputPane.scrollToBottom()
+    @process = null
