@@ -14,7 +14,9 @@ class GulpControlView extends View
 
   initialize: ->
     @click '.tasks li.task', (event) =>
-      @runGulp event.target.textContent
+      task = event.target.textContent
+      for t in @tasks when t is task
+        return @runGulp(task)
 
     @getGulpTasks()
 
@@ -22,18 +24,18 @@ class GulpControlView extends View
     'gulp.js:control'
 
   getGulpTasks: ->
-    tasks = []
+    @tasks = []
 
     onOutput = (output) =>
       for task in output.split('\n') when task.length
-        tasks.push task
+        @tasks.push task
 
     onError = (code) =>
       @gulpErr(code)
 
     onExit = (code) =>
       if code is 0
-        for task in tasks.sort()
+        for task in @tasks.sort()
           @taskList.append "<li id='gulp-#{task}' class='task'>#{task}</li>"
 
       else
@@ -45,12 +47,12 @@ class GulpControlView extends View
   runGulp: (task, stdout, stderr, exit) ->
     return unless atom.project.getPath()
 
-    command = switch process.platform
-      when 'win32' then 'gulp'
-      else '/usr/local/bin/gulp'
-
+    command = 'gulp'
     args = [task, '--color']
 
+    # This path is a problem here, however it is needed not for gulp, but rather for node. (The gulp file requires
+    # `env node`, so it needs to be available.) Previously the command could specify the full path to gulp, i.e. in
+    # /usr/local/bin/gulp
     options =
       cwd: atom.project.getPath()
       env:
@@ -61,6 +63,7 @@ class GulpControlView extends View
     exit or= (code) => @gulpExit(code)
 
     if task.indexOf('-')
+      @outputPane.append "<div>&nbsp;</div>"
       @outputPane.append "<div class='info'>Running gulp #{task}</div>"
 
     @find('.tasks li.task.active').removeClass 'active'
@@ -80,5 +83,4 @@ class GulpControlView extends View
 
   gulpExit: (code) ->
     @outputPane.append "<div class='#{if code then 'error' else ''}'>Exited with code #{code}</div>"
-    @outputPane.append "<div></div>"
     @outputPane.scrollToBottom()
