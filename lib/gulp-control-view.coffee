@@ -49,7 +49,7 @@ class GulpControlView extends View
 
     @process.kill() if @process
     @process = null
-    
+
     command = 'gulp'
     args = [task, '--color']
 
@@ -70,7 +70,7 @@ class GulpControlView extends View
       @outputPane.append "<div class='info'>Running gulp #{task}</div>"
 
     @find('.tasks li.task.active').removeClass 'active'
-    @find(".tasks li.task#gulp-#{task}").addClass 'active'
+    @find(".tasks li.task#gulp-#{task}").addClass 'active running'
 
     @process = new BufferedProcess({command, args, options, stdout, stderr, exit})
 
@@ -85,6 +85,7 @@ class GulpControlView extends View
     @outputPane.scrollToBottom()
 
   gulpExit: (code) ->
+    @find('.tasks li.task.active.running').removeClass 'running'
     @outputPane.append "<div class='#{if code then 'error' else ''}'>Exited with code #{code}</div>"
     @outputPane.scrollToBottom()
     @process = null
