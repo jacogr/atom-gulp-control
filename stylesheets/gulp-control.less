@@ -15,12 +15,17 @@
     border-right: 1px solid rgba(0, 0, 0, 0.5);
     padding: 10px;
 
-    li {
+    .task {
+      cursor: pointer;
       padding: 5px;
       border-radius: 4px;
 
       &.active {
-        background: #444;
+        background: #404040;
+      }
+
+      &:hover {
+        background: #505050;
       }
     }
   }
