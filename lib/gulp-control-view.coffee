@@ -34,7 +34,7 @@ class GulpControlView extends View
     onExit = (code) =>
       if code is 0
         for task in tasks.sort()
-          @taskList.append "<li class='task'>#{task}</li>"
+          @taskList.append "<li id='gulp-#{task}' class='task'>#{task}</li>"
 
       else
         console.error 'GulpControl: getGulpTasks, exit', code
@@ -54,7 +54,7 @@ class GulpControlView extends View
     options =
       cwd: atom.project.getPath()
       env:
-        PATH: '/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
+        PATH: '/usr/local/bin'
 
     stdout or= (output) => @gulpOut(output)
     stderr or= (code) => @gulpErr(code)
@@ -63,7 +63,10 @@ class GulpControlView extends View
     if task.indexOf('-')
       @outputPane.append "<div class='info'>Running gulp #{task}</div>"
 
-    return new BufferedProcess({command, args, options, stdout, stderr, exit})
+    @find('.tasks li.task.active').removeClass 'active'
+    @find(".tasks li.task#gulp-#{task}").addClass 'active'
+
+    @process = new BufferedProcess({command, args, options, stdout, stderr, exit})
 
   gulpOut: (output) ->
     for line in output.split("\n")
