@@ -1,4 +1,8 @@
 {BufferedProcess,View} = require 'atom'
+Convert = require 'ansi-to-html'
+
+convert = new Convert()
+console.log convert
 
 module.exports =
 class GulpControlView extends View
@@ -25,6 +29,9 @@ class GulpControlView extends View
       for task in output.split('\n') when task.length
         tasks.push task
 
+    onError = (code) =>
+      @gulpErr(code)
+
     onExit = (code) =>
       if code is 0
         console.log 'GulpControl: getGulpTasks =', tasks
@@ -34,7 +41,8 @@ class GulpControlView extends View
       else
         console.error 'GulpControl: getGulpTasks, exit', code
 
-    @runGulp '--tasks-simple', onOutput, @stdErr, onExit
+    @outputPane.append "<div class='info'>Retrieving list of gulp tasks</div>"
+    @runGulp '--tasks-simple', onOutput, onError, onExit
 
   runGulp: (task, stdout, stderr, exit) ->
     return unless atom.project.getPath()
@@ -43,7 +51,7 @@ class GulpControlView extends View
       when 'win32' then 'gulp'
       else '/usr/local/bin/gulp'
 
-    args = [task]
+    args = [task, '--color']
 
     options =
       cwd: atom.project.getPath()
@@ -54,23 +62,24 @@ class GulpControlView extends View
     stderr or= (code) => @gulpErr(code)
     exit or= (code) => @gulpExit(code)
 
-    return new BufferedProcess({command, args, options, stdout, stderr, exit})
+    if task.indexOf('-')
+      @outputPane.append "<div class='info'>Running gulp #{task}</div>"
 
-  setScroll: ->
-    gulpHelper = atom.workspaceView.find('.gulp-control .output')
-    gulpHelper.scrollTop(gulpHelper[0].scrollHeight)
+    return new BufferedProcess({command, args, options, stdout, stderr, exit})
 
   gulpOut: (output) ->
     for line in output.split("\n")
-      @outputPane.append "<div>#{line}</div>"
-    @setScroll()
+      @outputPane.append "<div>#{convert.toHtml line}</div>"
+    @outputPane.scrollToBottom()
 
-  gulpErr: (code) ->
-    console.error 'Error', code
-    #atom.workspaceView.find('.gulp-helper .panel-body').append "<div class='text-error'>Error Code: #{code}</div>"
-    #@setScroll()
+  gulpErr: (output) ->
+    console.error 'Error', output
+    for line in output.split("\n")
+      @outputPane.append "<div class='error'>#{convert.toHtml line}</div>"
+    @outputPane.scrollToBottom()
 
   gulpExit: (code) ->
     console.error 'Exit', code
-    #atom.workspaceView.find('.gulp-helper .panel-body').append "<div class='text-error'>Exited with error code: #{code}</div>"
-    #@setScroll()
+    @outputPane.append "<div class='#{if code then 'error' else ''}'>Exited with code #{code}</div>"
+    @outputPane.append "<div></div>"
+    @outputPane.scrollToBottom()
