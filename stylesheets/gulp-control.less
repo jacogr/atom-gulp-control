@@ -5,23 +5,31 @@
 @import "ui-variables";
 
 .gulp-control {
-  background: @app-background-color;
   color: @text-color;
 
   .tasks {
     float: left;
     height: 100%;
     width: 25%;
-    border-right: 1px solid white;
+    background: #303030;
+    border-right: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 10px;
+
+    li {
+      padding: 5px;
+      border-radius: 4px;
+
+      &.active {
+        background: #444;
+      }
+    }
   }
 
   .output {
     float: left;
     height: 100%;
     width: 75%;
-  }
-
-  h1 {
-    color: #fff;
+    background: @tool-panel-background-color;
+    padding: 10px;
   }
 }
