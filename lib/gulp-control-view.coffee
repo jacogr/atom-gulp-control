@@ -2,7 +2,6 @@
 Convert = require 'ansi-to-html'
 
 convert = new Convert()
-console.log convert
 
 module.exports =
 class GulpControlView extends View
@@ -34,7 +33,6 @@ class GulpControlView extends View
 
     onExit = (code) =>
       if code is 0
-        console.log 'GulpControl: getGulpTasks =', tasks
         for task in tasks.sort()
           @taskList.append "<li class='task'>#{task}</li>"
 
@@ -73,13 +71,11 @@ class GulpControlView extends View
     @outputPane.scrollToBottom()
 
   gulpErr: (output) ->
-    console.error 'Error', output
     for line in output.split("\n")
       @outputPane.append "<div class='error'>#{convert.toHtml line}</div>"
     @outputPane.scrollToBottom()
 
   gulpExit: (code) ->
-    console.error 'Exit', code
     @outputPane.append "<div class='#{if code then 'error' else ''}'>Exited with code #{code}</div>"
     @outputPane.append "<div></div>"
     @outputPane.scrollToBottom()
