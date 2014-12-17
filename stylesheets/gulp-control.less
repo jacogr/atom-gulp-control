@@ -11,8 +11,8 @@
     float: left;
     height: 100%;
     width: 25%;
-    background: #303030;
-    border-right: 1px solid rgba(0, 0, 0, 0.5);
+    background: @tab-background-color;
+    border-right: 1px solid @base-border-color;
     padding: 10px;
     overflow-y: scroll;
 
@@ -22,16 +22,16 @@
       border-radius: 4px;
 
       &.active {
-        background: #484848;
-        color: #fff;
+        background: @button-background-color-selected;
+        color: @text-color-highlight;
 
         &.running {
-          background: #487048;
+          background: @background-color-success;
         }
       }
 
       &:hover {
-        background: #404040;
+        background: @button-background-color;
       }
     }
   }
@@ -50,7 +50,7 @@
       background: @tool-panel-background-color;
 
       &.error {
-        color: #b33;
+        color: @text-color-error;
       }
     }
   }
