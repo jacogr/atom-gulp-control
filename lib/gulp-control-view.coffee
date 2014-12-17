@@ -13,15 +13,27 @@ class GulpControlView extends View
   serialize: ->
 
   initialize: ->
+    console.log 'GulpControlView: initialize'
+
     @click '.tasks li.task', (event) =>
       task = event.target.textContent
       for t in @tasks when t is task
         return @runGulp(task)
 
     @getGulpTasks()
+    return
+
+  destroy: ->
+    console.log 'GulpControlView: destroy'
+
+    if @process
+      @process.kill()
+      @process = null
+    @detach()
+    return
 
   getTitle: ->
-    'gulp.js:control'
+    return 'gulp.js:control'
 
   getGulpTasks: ->
     @tasks = []
@@ -43,6 +55,7 @@ class GulpControlView extends View
 
     @outputPane.append "<div class='info'>Retrieving list of gulp tasks</div>"
     @runGulp '--tasks-simple', onOutput, onError, onExit
+    return
 
   runGulp: (task, stdout, stderr, exit) ->
     return unless atom.project.getPath()
@@ -75,19 +88,23 @@ class GulpControlView extends View
     @find(".tasks li.task#gulp-#{task}").addClass 'active running'
 
     @process = new BufferedProcess({command, args, options, stdout, stderr, exit})
+    return
 
   gulpOut: (output) ->
     for line in output.split("\n")
       @outputPane.append "<div>#{convert.toHtml line}</div>"
     @outputPane.scrollToBottom()
+    return
 
   gulpErr: (output) ->
     for line in output.split("\n")
       @outputPane.append "<div class='error'>#{convert.toHtml line}</div>"
     @outputPane.scrollToBottom()
+    return
 
   gulpExit: (code) ->
     @find('.tasks li.task.active.running').removeClass 'running'
     @outputPane.append "<div class='#{if code then 'error' else ''}'>Exited with code #{code}</div>"
     @outputPane.scrollToBottom()
     @process = null
+    return
