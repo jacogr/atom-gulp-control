@@ -1,7 +1,7 @@
 {
   "name": "gulp-control",
   "main": "./lib/gulp-control",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Run all gulp tasks via a click, see what is available",
   "activationCommands": {
     "atom-workspace": "gulp-control:toggle"
