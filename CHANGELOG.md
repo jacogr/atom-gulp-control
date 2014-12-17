@@ -1,6 +1,6 @@
 ## 0.2.1
 
-- Output not in <pre> blocks, console outputs deserver console-look
+- Output now in <pre> blocks, console outputs deserver console-look
 
 ... making things pretty
 
