@@ -4,9 +4,9 @@
 
 Displays gulp tasks and allows execution with a single click.
 
-Tasks can be re-started, tracked and controlled from a central point.
+Tasks can be re-started, tracked and controlled from a central point. Open the control from tha package menu and you are good to go.
 
-NOTE: This has not been tested on Windows in this release, it is on the list of things to get to. Hang tight. Chances are quite good it won't operate in it's current state - the gulp & node combination is quite finicky about paths.
+NOTE: This has not been tested on Windows in this release, it is on the list of things to get to. Hang tight. The gulp & node combination is quite finicky about paths.
 
 ![Gulp](https://raw.githubusercontent.com/jacogr/atom-gulp-control/master/screenshots/gulp-01.png)
 

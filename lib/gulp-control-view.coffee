@@ -30,8 +30,8 @@ class GulpControlView extends View
       for task in output.split('\n') when task.length
         @tasks.push task
 
-    onError = (code) =>
-      @gulpErr(code)
+    onError = (output) =>
+      @gulpErr(output)
 
     onExit = (code) =>
       if code is 0
@@ -47,19 +47,21 @@ class GulpControlView extends View
   runGulp: (task, stdout, stderr, exit) ->
     return unless atom.project.getPath()
 
-    @process.kill() if @process
-    @process = null
+    if @process
+      @process.kill()
+      @process = null
 
     command = 'gulp'
     args = [task, '--color']
 
-    # This path is a problem here, however it is needed not for gulp, but rather for node. (The gulp file requires
-    # `env node`, so it needs to be available.) Previously the command could specify the full path to gulp, i.e. in
-    # /usr/local/bin/gulp
+    envpath = switch process.platform
+      when 'win32' then process.env.PATH
+      else "#{process.env.PATH}:/usr/local/bin"
+
     options =
       cwd: atom.project.getPath()
       env:
-        PATH: '/usr/local/bin'
+        PATH: envpath
 
     stdout or= (output) => @gulpOut(output)
     stderr or= (code) => @gulpErr(code)

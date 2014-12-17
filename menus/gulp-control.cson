@@ -2,7 +2,7 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle gulp-control'
+      'label': 'Open gulp-control'
       'command': 'gulp-control:toggle'
     }
   ]
@@ -13,7 +13,7 @@
       'label': 'gulp-control'
       'submenu': [
         {
-          'label': 'Toggle'
+          'label': 'Open'
           'command': 'gulp-control:toggle'
         }
       ]
