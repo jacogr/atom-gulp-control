@@ -1,3 +1,10 @@
+## 0.3.2
+
+- Only display exit code in red when there has been an actual error
+- Use ui-variables colors everywhere to help with UI theme switching
+
+... best practices for doing the UI, doesn't mean light works yet
+
 ## 0.3.1
 
 - Gulpfile name should be case-insensitive
@@ -13,7 +20,7 @@
 
 ## 0.2.1
 
-- Output now in <pre> blocks, console outputs deserves console-look
+- Output now in pre blocks, console outputs deserves console-look
 
 ... making things pretty
 
