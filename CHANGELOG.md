@@ -1,3 +1,11 @@
+## 0.2.0
+
+- Tested on Windows, NOTE removed
+- Fixed Open not opening when selected again
+- ability to run multiple control tabs
+
+... bring it close to decent and stable
+
 ## 0.1.1
 
 - Allow generic $PATH to be passed-in, should help Windows compatibility
