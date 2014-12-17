@@ -138,6 +138,6 @@ class GulpControlView extends View
 
   gulpExit: (code) ->
     @find('.tasks li.task.active.running').removeClass 'running'
-    @writeOutput "Exited with code #{code}", 'error'
+    @writeOutput "Exited with code #{code}", "#{if code then 'error' else ''}"
     @process = null
     return
