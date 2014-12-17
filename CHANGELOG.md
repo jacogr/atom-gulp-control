@@ -1,3 +1,9 @@
+## 0.3.1
+
+- Gulpfile name should be case-insensitive
+
+... ouch.
+
 ## 0.3.0
 
 - Locate the Gulpfile.js/Gulpfile.coffee in your project automatically when not in the project root
