@@ -53,7 +53,7 @@ class GulpControlView extends View
       else
         console.error 'GulpControl: getGulpTasks, exit', code
 
-    @outputPane.append "<div class='info'>Retrieving list of gulp tasks</div>"
+    @writeOutput 'Retrieving list of gulp tasks'
     @runGulp '--tasks-simple', onOutput, onError, onExit
     return
 
@@ -67,22 +67,20 @@ class GulpControlView extends View
     command = 'gulp'
     args = [task, '--color']
 
-    envpath = switch process.platform
-      when 'win32' then process.env.PATH
-      else "#{process.env.PATH}:/usr/local/bin"
-
     options =
       cwd: atom.project.getPath()
       env:
-        PATH: envpath
+        PATH: switch process.platform
+          when 'win32' then process.env.PATH
+          else "#{process.env.PATH}:/usr/local/bin"
 
     stdout or= (output) => @gulpOut(output)
     stderr or= (code) => @gulpErr(code)
     exit or= (code) => @gulpExit(code)
 
     if task.indexOf('-')
-      @outputPane.append "<div>&nbsp;</div>"
-      @outputPane.append "<div class='info'>Running gulp #{task}</div>"
+      @writeOutput '&nbsp;'
+      @writeOutput "Running gulp #{task}"
 
     @find('.tasks li.task.active').removeClass 'active'
     @find(".tasks li.task#gulp-#{task}").addClass 'active running'
@@ -90,21 +88,24 @@ class GulpControlView extends View
     @process = new BufferedProcess({command, args, options, stdout, stderr, exit})
     return
 
+  writeOutput: (line, klass) ->
+    if line and line.length
+      @outputPane.append "<pre class='#{klass or ''}'>#{line}</pre>"
+      @outputPane.scrollToBottom()
+    return
+
   gulpOut: (output) ->
-    for line in output.split("\n")
-      @outputPane.append "<div>#{convert.toHtml line}</div>"
-    @outputPane.scrollToBottom()
+    for line in output.split('\n')
+      @writeOutput convert.toHtml(line)
     return
 
   gulpErr: (output) ->
-    for line in output.split("\n")
-      @outputPane.append "<div class='error'>#{convert.toHtml line}</div>"
-    @outputPane.scrollToBottom()
+    for line in output.split('\n')
+      @writeOutput convert.toHtml(line), 'error'
     return
 
   gulpExit: (code) ->
     @find('.tasks li.task.active.running').removeClass 'running'
-    @outputPane.append "<div class='#{if code then 'error' else ''}'>Exited with code #{code}</div>"
-    @outputPane.scrollToBottom()
+    @writeOutput "Exited with code #{code}", 'error'
     @process = null
     return
