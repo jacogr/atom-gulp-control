@@ -1,3 +1,9 @@
+## 0.2.1
+
+- Output not in <pre> blocks, console outputs deserver console-look
+
+... making things pretty
+
 ## 0.2.0
 
 - Tested on Windows, NOTE removed
