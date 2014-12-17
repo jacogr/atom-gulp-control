@@ -1,6 +1,9 @@
-{BufferedProcess,View} = require 'atom'
-Convert = require 'ansi-to-html'
+fs = require 'fs'
+path = require 'path'
 
+{BufferedProcess,View} = require 'atom'
+
+Convert = require 'ansi-to-html'
 convert = new Convert()
 
 module.exports =
@@ -14,6 +17,10 @@ class GulpControlView extends View
 
   initialize: ->
     console.log 'GulpControlView: initialize'
+
+    unless atom.project.getPath()
+      @writeOutput 'No project path found, aborting', 'error'
+      return
 
     @click '.tasks li.task', (event) =>
       task = event.target.textContent
@@ -35,8 +42,34 @@ class GulpControlView extends View
   getTitle: ->
     return 'gulp.js:control'
 
+  getGulpCwd: (cwd) ->
+    dirs = []
+
+    for entry in fs.readdirSync(cwd) when entry.indexOf('.') isnt 0
+      if /^Gulpfile\.[js|coffee]/.test(entry)
+        @gulpFile = entry
+        return cwd
+
+      else if entry.indexOf('node_modules') is -1
+        abs = path.join(cwd, entry)
+        if fs.statSync(abs).isDirectory()
+          dirs.push abs
+
+    for dir in dirs
+      if found = @getGulpCwd(dir)
+        return found
+
+    return
+
   getGulpTasks: ->
     @tasks = []
+
+    unless @gulpCwd = @getGulpCwd(atom.project.getPath())
+      @writeOutput "Unable to find #{atom.project.getPath()}/**/Gulpfile.[js|coffee]", 'error'
+      return
+
+    @writeOutput "Using #{@gulpCwd}/#{@gulpFile}"
+    @writeOutput 'Retrieving list of gulp tasks'
 
     onOutput = (output) =>
       for task in output.split('\n') when task.length
@@ -49,17 +82,16 @@ class GulpControlView extends View
       if code is 0
         for task in @tasks.sort()
           @taskList.append "<li id='gulp-#{task}' class='task'>#{task}</li>"
+        @writeOutput "#{@tasks.length} tasks found"
 
       else
+        @gulpExit(code)
         console.error 'GulpControl: getGulpTasks, exit', code
 
-    @writeOutput 'Retrieving list of gulp tasks'
     @runGulp '--tasks-simple', onOutput, onError, onExit
     return
 
   runGulp: (task, stdout, stderr, exit) ->
-    return unless atom.project.getPath()
-
     if @process
       @process.kill()
       @process = null
@@ -68,7 +100,7 @@ class GulpControlView extends View
     args = [task, '--color']
 
     options =
-      cwd: atom.project.getPath()
+      cwd: @gulpCwd
       env:
         PATH: switch process.platform
           when 'win32' then process.env.PATH

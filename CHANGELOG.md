@@ -1,3 +1,10 @@
+## 0.3.0
+
+- Locate the Gulpfile.js/Gulpfile.coffee in your project automatically when not in the project root
+- Above fixes https://github.com/jacogr/atom-gulp-control/issues/1
+
+... allowing for files not in the root
+
 ## 0.2.1
 
 - Output now in <pre> blocks, console outputs deserves console-look
