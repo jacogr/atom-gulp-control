@@ -8,7 +8,7 @@ Tasks can be re-started, tracked and controlled from a central point. Open the c
 
 ![Gulp](https://raw.githubusercontent.com/jacogr/atom-gulp-control/master/screenshots/gulp-01.png)
 
-### Where
+## Where
 
 The Atom package can be found on the Atom registry, [https://atom.io/packages/gulp-control](https://atom.io/packages/gulp-control).
 
