@@ -6,20 +6,23 @@ views = []
 module.exports = GulpControl =
   activate: (state) ->
     console.log 'GulpControl: activate'
-    @newView()
+
+    atom.workspaceView.command "gulp-control:toggle", => @newView()
+    return
 
   deactivate: ->
-    for view in views
-      view.destroy()
-
-  serialize: ->
-
-  toggle: ->
-    console.log 'GulpControl: toggle'
+    console.log 'GulpControl: deactivate'
+    return
 
   newView: ->
+    console.log 'GulpControl: toggle'
+
     view = new GulpControlView()
     views.push view
+
     pane = atom.workspace.getActivePane()
     item = pane.addItem view, 0
     pane.activateItem item
+    return
+
+  serialize: ->
