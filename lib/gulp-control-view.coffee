@@ -107,8 +107,6 @@ class GulpControlView extends View
       cwd: @gulpCwd
       env: process.env
 
-    console.log options
-
     stdout or= (output) => @gulpOut(output)
     stderr or= (code) => @gulpErr(code)
     exit or= (code) => @gulpExit(code)
