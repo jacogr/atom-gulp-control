@@ -99,12 +99,15 @@ class GulpControlView extends View
     command = 'gulp'
     args = [task, '--color']
 
+    process.env.PATH = switch process.platform
+      when 'win32' then process.env.PATH
+      else "#{process.env.PATH}:/usr/local/bin"
+
     options =
       cwd: @gulpCwd
-      env:
-        PATH: switch process.platform
-          when 'win32' then process.env.PATH
-          else "#{process.env.PATH}:/usr/local/bin"
+      env: process.env
+
+    console.log options
 
     stdout or= (output) => @gulpOut(output)
     stderr or= (code) => @gulpErr(code)
