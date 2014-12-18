@@ -1,12 +1,7 @@
-## 0.3.3
+## 0.3.2
 
 - Export the full current environment to the gulp sub-process
 - Explicitly adjust path on nix/OSX to include /usr/local/bin
-
-... small changes to ensure it is consistent with the prompt
-
-## 0.3.2
-
 - Only display exit code in red when there has been an actual error
 - Use ui-variables colors everywhere to help with UI theme switching
 
