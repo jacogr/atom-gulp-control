@@ -1,3 +1,9 @@
+## 0.3.3
+
+- Updated description & README
+
+... tidying up
+
 ## 0.3.2
 
 - Export the full current environment to the gulp sub-process
