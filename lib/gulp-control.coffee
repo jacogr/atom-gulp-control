@@ -7,7 +7,7 @@ module.exports = GulpControl =
   activate: (state) ->
     console.log 'GulpControl: activate'
 
-    atom.workspaceView.command "gulp-control:toggle", => @newView()
+    atom.commands.add 'atom-workspace', "gulp-control:toggle": => @newView()
     return
 
   deactivate: ->
