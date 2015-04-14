@@ -97,6 +97,11 @@ class GulpControlView extends View
       @process = null
 
     command = 'gulp'
+    # if gulp is installed localy, use that instead
+    localGulpPath = path.join(atom.project.getPath(), 'node_modules', '.bin', 'gulp')
+    if fs.existsSync(localGulpPath)
+        command = localGulpPath
+
     args = [task, '--color']
 
     process.env.PATH = switch process.platform
