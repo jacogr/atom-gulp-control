@@ -1,6 +1,7 @@
 ## Development
 
 - Add support for executing locally installed gulp. [Micah Zoltu](https://github.com/Zoltu) contributed [#9](https://github.com/jacogr/atom-gulp-control/pull/9)
+- Fix deprecation. [Amit Choukroun](https://github.com/amitmtrn) contributed [#4](https://github.com/jacogr/atom-gulp-control/pull/4)
 
 ## 0.3.3
 
