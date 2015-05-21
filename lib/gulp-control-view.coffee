@@ -1,7 +1,8 @@
 fs = require 'fs'
 path = require 'path'
 
-{BufferedProcess,View} = require 'atom'
+{BufferedProcess} = require 'atom'
+{View} = require 'atom-space-pen-views'
 
 Convert = require 'ansi-to-html'
 convert = new Convert()
@@ -18,7 +19,8 @@ class GulpControlView extends View
   initialize: ->
     console.log 'GulpControlView: initialize'
 
-    unless atom.project.getPath()
+    projpaths = atom.project.getPaths()
+    if !projpaths or !projpaths.length or !projpaths[0]
       @writeOutput 'No project path found, aborting', 'error'
       return
 
@@ -64,8 +66,9 @@ class GulpControlView extends View
   getGulpTasks: ->
     @tasks = []
 
-    unless @gulpCwd = @getGulpCwd(atom.project.getPath())
-      @writeOutput "Unable to find #{atom.project.getPath()}/**/[G|g]ulpfile.[js|coffee]", 'error'
+    projpath = atom.project.getPaths()[0]
+    unless @gulpCwd = @getGulpCwd(projpath)
+      @writeOutput "Unable to find #{projpath}/**/[G|g]ulpfile.[js|coffee]", 'error'
       return
 
     @writeOutput "Using #{@gulpCwd}/#{@gulpFile}"
@@ -98,7 +101,8 @@ class GulpControlView extends View
 
     command = 'gulp'
     # if gulp is installed localy, use that instead
-    localGulpPath = path.join(atom.project.getPath(), 'node_modules', '.bin', 'gulp')
+    projpath = atom.project.getPaths()[0]
+    localGulpPath = path.join(projpath, 'node_modules', '.bin', 'gulp')
     if fs.existsSync(localGulpPath)
         command = localGulpPath
 

@@ -1,7 +1,14 @@
 ## Development
 
+## 0.4.0
+
+- Use atom.project.getPaths() instead of atom.project.getPath() (1.0 deprecation)
+- View require now requires from atom-space-pen-views (1.0 deprecation)
+- Move styles from stylesheet/ into styles. [Bruno Sabot](https://github.com/brunosabot) contributed [#11](https://github.com/jacogr/atom-gulp-control/pull/11)
 - Add support for executing locally installed gulp. [Micah Zoltu](https://github.com/Zoltu) contributed [#9](https://github.com/jacogr/atom-gulp-control/pull/9)
 - Fix deprecation. [Amit Choukroun](https://github.com/amitmtrn) contributed [#4](https://github.com/jacogr/atom-gulp-control/pull/4)
+
+... ready for the Atom 1.0 release
 
 ## 0.3.3
 
