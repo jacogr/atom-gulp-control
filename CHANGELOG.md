@@ -1,5 +1,11 @@
 ## Development
 
+## 0.4.2
+
+- Allow for running tasks that have ':' in their name, fixes [#5](https://github.com/jacogr/atom-gulp-control/issues/5) and [#14](https://github.com/jacogr/atom-gulp-control/issues/14)
+
+... where there is smoke, there is fire.
+
 ## 0.4.1
 
 - Make test for gulpfile.[js|coffee] case insensitive, fixes [#13](https://github.com/jacogr/atom-gulp-control/issues/13)

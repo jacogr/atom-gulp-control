@@ -1,3 +1,4 @@
+crypto = require 'crypto'
 fs = require 'fs'
 path = require 'path'
 
@@ -64,6 +65,11 @@ class GulpControlView extends View
 
     return
 
+  getTaskId: (taskname) ->
+    shasum = crypto.createHash('sha1')
+    shasum.update(taskname)
+    return "gulp-#{shasum.digest('hex')}"
+
   getGulpTasks: ->
     @tasks = []
 
@@ -85,7 +91,8 @@ class GulpControlView extends View
     onExit = (code) =>
       if code is 0
         for task in @tasks.sort()
-          @taskList.append "<li id='gulp-#{task}' class='task'>#{task}</li>"
+          tid = @getTaskId(task)
+          @taskList.append "<li id='#{tid}' class='task'>#{task}</li>"
         @writeOutput "#{@tasks.length} tasks found"
 
       else
@@ -125,8 +132,10 @@ class GulpControlView extends View
       @writeOutput '&nbsp;'
       @writeOutput "Running gulp #{task}"
 
+    tid = @getTaskId(task)
+
     @find('.tasks li.task.active').removeClass 'active'
-    @find(".tasks li.task#gulp-#{task}").addClass 'active running'
+    @find(".tasks li.task##{tid}").addClass 'active running'
 
     @process = new BufferedProcess({command, args, options, stdout, stderr, exit})
     return
