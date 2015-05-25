@@ -1,5 +1,11 @@
 ## Development
 
+## 0.4.1
+
+- Make test for gulpfile.[js|coffee] case insensitive, fixes [#13](https://github.com/jacogr/atom-gulp-control/issues/13)
+
+... conform to gulp naming conventions
+
 ## 0.4.0
 
 - Use atom.project.getPaths() instead of atom.project.getPath() (1.0 deprecation)
