@@ -48,7 +48,7 @@ class GulpControlView extends View
   getGulpCwd: (cwd) ->
     dirs = []
 
-    gfregx = /^gulpfile\.[js|coffee]/i
+    gfregx = /^gulpfile(\.babel)?\.(js|coffee)/i
     for entry in fs.readdirSync(cwd) when entry.indexOf('.') isnt 0
       if gfregx.test(entry)
         @gulpFile = entry
