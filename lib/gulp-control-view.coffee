@@ -118,7 +118,7 @@ class GulpControlView extends View
 
     process.env.PATH = switch process.platform
       when 'win32' then process.env.PATH
-      else "#{process.env.PATH}:/usr/local/bin"
+      else "#{process.env.PATH}:" + atom.config.get('gulp-control.nodePath')
 
     options =
       cwd: @gulpCwd

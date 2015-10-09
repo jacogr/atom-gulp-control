@@ -16,6 +16,12 @@ Reasons why this might work for you
 - Allows a single overview of all tasks available to you
 - Gulpfile.[coffee|js] is automatically located, either withing the root project folder or a sub-folder
 
+## Configuration
+
+Because Gulp requires the node executable, there is a potential for it to break if you use [nvm](https://github.com/creationix/nvm) or [nodebrew](https://github.com/hokaccha/nodebrew). If it doesn't initally work, you can specify node's bin folder in the package settings.
+
+*NOTE: if you type* `which node` *into the console you can get node's system path, but you need to remove "node" from the end of it for it to work.*
+
 ## Where
 
 The Atom package can be found on the Atom registry, [https://atom.io/packages/gulp-control](https://atom.io/packages/gulp-control).
