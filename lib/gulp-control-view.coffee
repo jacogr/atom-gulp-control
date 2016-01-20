@@ -3,7 +3,7 @@ fs = require 'fs'
 path = require 'path'
 
 {BufferedProcess} = require 'atom'
-{View} = require 'atom-space-pen-views'
+{View, $} = require 'atom-space-pen-views'
 
 Convert = require 'ansi-to-html'
 convert = new Convert()
@@ -26,9 +26,16 @@ class GulpControlView extends View
       return
 
     @click '.tasks li.task', (event) =>
-      task = event.target.textContent
-      for t in @tasks when t is task
-        return @runGulp(task)
+      target = $(event.target)
+      task = target.text()
+      if target.hasClass('running') && @process
+        @process.kill()
+        @process = null
+        target.removeClass('active running')
+        @writeOutput "Task '#{task}' stopped"
+      else
+        for t in @tasks when t is task
+          return @runGulp(task)
 
     @getGulpTasks()
     return
