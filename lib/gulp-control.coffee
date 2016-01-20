@@ -26,3 +26,10 @@ module.exports = GulpControl =
     return
 
   serialize: ->
+
+  config:
+    nodePath:
+      title: 'Bin Path',
+      description: 'This should be set to the folder in which the node executable is located. This can be found by typing \'which node\' from the command line, but you need to remove \'node\' from the end.'
+      type: 'string'
+      default: '/usr/local/bin'
