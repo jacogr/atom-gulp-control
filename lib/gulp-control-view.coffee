@@ -148,6 +148,8 @@ class GulpControlView extends View
     return
 
   writeOutput: (line, klass) ->
+    parts = line.split('\r')
+    line = parts[parts.length-1]
     if line and line.length
       @outputPane.append "<pre class='#{klass or ''}'>#{line}</pre>"
       @outputPane.scrollToBottom()
